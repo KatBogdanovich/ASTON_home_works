@@ -239,7 +239,7 @@ public class Main {
     14. Написать метод, принимающий на вход два аргумента: len и  initialValue, и возвращающий
     одномерный массив типа int длиной len, каждая ячейка, которого равна initialValue.
      */
-    public static void createArr(int len, int initialValue) {
+    public static int[] createArr(int len, int initialValue) {
         System.out.println(" ");
         System.out.println("Задание №14");
         int[] arr = new int[len];
@@ -247,5 +247,6 @@ public class Main {
             i = initialValue;
             System.out.print(i + "  ");
         }
+        return arr;
     }
 }
