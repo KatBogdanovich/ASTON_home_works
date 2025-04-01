@@ -1,18 +1,13 @@
 package exemple;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Description;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,12 +33,16 @@ public class MtsTest {
     }
 
     @Test
+    @DisplayName("Проверка названия : Онлайн пополнение без комиссии.")
+    @Description("Найти и сверить название блока на странице.")
     public void checkTitle() {
         assertEquals("Онлайн пополнение\nбез комиссии", mainPage.getPaymentModuleTitle(),
                 "Заголовок блока пополнения не соответствует");
     }
 
     @Test
+    @DisplayName("Проверка наличия на странице всех логотипов платежных систем.")
+    @Description("Найти в блоке пополнение без комиссии логотипы платежных систем, принимаемых к оплате.")
     public void checkLogos() {
         assertAll(
                 () -> assertTrue(mainPage.getLogoUrl("Visa").contains("visa.svg"),
@@ -60,6 +59,8 @@ public class MtsTest {
     }
 
     @Test
+    @DisplayName("Проверка работы ссылки : Подробнее о сервисе.")
+    @Description("Проверить осуществляется переход на страницу (Порядок оплаты и безопасность интернет платежей)")
     public void checkLinkWorks() {
         mainPage.clickPaymentDetailsLink();
         assertEquals("Порядок оплаты и безопасность интернет платежей", driver.getTitle(),
@@ -67,6 +68,8 @@ public class MtsTest {
     }
 
     @Test
+    @DisplayName("Проверка заполнения полей в форме Оплаты и работы кнопки Продолжить")
+    @Description("Проверить корректность заполнения полей, только для Услуги связи и переход на страницу Оплаты. Переход подтверждается проверкой номера телефона.")
     public void checkPaymentInput() {
         mainPage.fillAndConfirmPaymentByPhone("297777777", "12", "k82b@mail.ru");
         mainPage.clickContinuePaymentButton();
@@ -77,6 +80,8 @@ public class MtsTest {
     }
 
     @Test
+    @DisplayName("Проверка надписей в незаполненных полях для каждого вида услуг.")
+    @Description("Проверить для каждой услуги надпись в каждом незаполненном поле.")
     public void checkPlaceholders() {
         String errorMessage = "Некорректный плейсхолдер";
 
@@ -91,6 +96,8 @@ public class MtsTest {
     }
 
     @Test
+    @DisplayName("Проверка корректности отображения информации.")
+    @Description("Проверить корректность отображения номера телефона, суммы платежа, email-адреса, надписей в незаполненных полях для реквизитов карты.")
     public void checkPaymentPage() {
         mainPage.selectPaymentType("Услуги связи");
         mainPage.fillAndConfirmPaymentByPhone("297777777", "12", "k82b@mail.ru");
@@ -114,6 +121,8 @@ public class MtsTest {
     }
 
     @ParameterizedTest
+    @DisplayName("Проверка логотипов платежных систем на странице оплаты.")
+    @Description("Проверить наличие иконок платежных систем на странице оплаты")
     @ValueSource(strings = {"visa-system", "mastercard-system", "belkart-system", "maestro-system", "mir-system-ru"})
     public void checkPaymentPageLogos(String logoName) {
         mainPage.selectPaymentType("Услуги связи");
